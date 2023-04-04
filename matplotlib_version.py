@@ -3,7 +3,7 @@ from matplotlib import animation
 from random import choice, random
 
 def plt_artist_anim():
-    n_itertions = 5000
+    n_itertions = 500
 
     points_x = [0,2,4]
     points_y = [0,3,0]

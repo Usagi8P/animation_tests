@@ -2,24 +2,27 @@ import pygame
 from pygame.locals import *
 
 class Point(pygame.sprite.Sprite):
-    def __init__(self,x_loc, y_loc,surface):
+    def __init__(self,x_loc, y_loc, radius):
         super().__init__()
-        self.surface = pygame.Surface((50,50))
-        self.shape = pygame.draw.circle(surface, (0,0,0), center=(x_loc, y_loc), radius = 1)
-        # self.rect = self.surface.get_rect(center=(x_loc, y_loc))
+        self.image = pygame.Surface((radius*2,radius*2),flags=pygame.SRCALPHA)
+        self.rect = self.image.get_rect(center = (x_loc, y_loc))
+        self.image.fill((255,255,255,0.0))
+        pygame.draw.circle(self.image, (0,0,0), center=(radius, radius), radius = radius)
 
 def pygame_anim():
     pygame.init()
 
     frames_per_sec = 60
+    window = (480,480)
 
     frame_rate = pygame.time.Clock()
-    screen = pygame.display.set_mode((480, 480), pygame.SCALED)
+    screen = pygame.display.set_mode(window, pygame.SCALED)
     pygame.display.set_caption("Sierpinski Triangle")
 
-    p1 = Point(100,100, screen)
-    p2 = Point(50,50,screen)
-    p3 = Point(100,50, screen)
+    radius = 5
+    p1 = Point(100,100, radius)
+    p2 = Point(200,200,radius)
+    p3 = Point(105,102, radius)
 
     all_points = pygame.sprite.Group()
     all_points.add(p1)
@@ -33,10 +36,9 @@ def pygame_anim():
             
         screen.fill((255,255,255))
 
-        for point in all_points:
-            screen.blit(point.surface, point.shape)
+        all_points.draw(screen)
 
-        pygame.display.update()
+        pygame.display.flip()
         frame_rate.tick(frames_per_sec)
 
 
